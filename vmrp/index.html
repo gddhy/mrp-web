@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=0.9">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title id="title">VMRP中转</title>
+</head>
+<body>
+<center>
+跳转中...
+</center>
+<script>
+var vmrpLinkCn = "https://mrp.magicblue.cn/mrp/main.html"
+var vmrpLink = "https://vmrp.gddhy.net/"
+var cdnLink = "https://fastly.jsdelivr.net/gh/gddhy/mrp-web";
+
+function getQueryString(name) {
+  var url_string = window.location.href;
+  var params = url_string.split('?')[1];
+  if (!params) return null;
+  var vars = params.split("&");
+  var query_string = {};
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    var key = decodeURIComponent(pair[0]);
+    var value = decodeURIComponent(pair[1]);
+    if (name === key) {
+      return value;
+    }
+  }
+  return null;
+}
+
+if(window.location.href.includes("?")){
+    var link = "?";
+    var f = getQueryString("f");
+    var title = getQueryString("title");
+    if(f.includes("/mrp-files/")){
+        f = cdnLink + f;
+    }
+    link = link + "f=" + f;
+    if(title!=null){
+        link = link + "&title=" + title;
+    }
+    //if(navigator.language==="zh-CN"){
+    //  window.location.href = vmrpLinkCn + link;
+    //} else {
+      window.location.href = vmrpLink + link;
+    //}
+} else {
+    window.location.href = vmrpLink;
+}
+
+</script>
+<!-- Cloudflare Web Analytics -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "17d2cb4c617347b9a939346f542ca423"}'></script>
+<!-- End Cloudflare Web Analytics --></body>
+</html>
