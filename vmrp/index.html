@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title id="title">VMRP中转</title>
+</head>
+
+<body>
+    <center>
+        跳转中...
+    </center>
+    <br /><br /><br />
+    <center>
+        <a href="javascript:void(0)" onclick="jumpOnline()">打开网页版模拟器</a>
+    </center>
+    <br /><br /><br />
+    <center>
+        <a href="https://gddhy.net/2023/mrp-shang-dian/">下载Mrp商店</a>
+    </center>
+    <script>
+        var vmrpLinkCn = "http://vmrp.yzjlb.net/?isapp=1&scrw=240&scrh=320&showboard=1&f="
+        var vmrpLink = "https://vmrp.gddhy.net/?f="
+        var cdnLink = "https://gcore.jsdelivr.net/gh/gddhy/mrp-web";
+
+        function getQueryString(name) {
+            var url_string = window.location.href;
+            var params = url_string.split('?')[1];
+            if (!params) return null;
+            var vars = params.split("&");
+            var query_string = {};
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                var key = decodeURIComponent(pair[0]);
+                var value = decodeURIComponent(pair[1]);
+                if (name === key) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        function Toast(msg, duration) {
+            duration = isNaN(duration) ? 3000 : duration;
+            var m = document.createElement('div');
+            m.innerHTML = msg;
+            m.style.cssText = "max-width:60%;min-width: 150px;padding:0 14px;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 4px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 999999;background: rgba(0, 0, 0,.7);font-size: 16px;";
+            document.body.appendChild(m);
+            setTimeout(function () {
+                var d = 0.5;
+                m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
+                m.style.opacity = '0';
+                setTimeout(function () { document.body.removeChild(m) }, d * 1000);
+            }, duration);
+        }
+
+        function isMobile() {
+            const userAgentInfo = navigator.userAgent;
+            const mobileAgents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+            const mobileFlag = mobileAgents.some((mobileAgent) => {
+                return userAgentInfo.indexOf(mobileAgent) > 0;
+            });
+
+            return mobileFlag;
+        }
+        
+        function isAndroid(){
+            return navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1;
+        }
+
+        function jumpVMRP(file, scr) {
+            if (isAndroid()) {
+                //window.location.href = 'vmrp://' + file;
+                window.location.href = "vmrp://mrp/run?file=" + file + "&scr=" + scr;
+                setTimeout(function () {
+                    let hidden = window.document.hidden || window.document.mozHidden || window.document.msHidden || window.document.webkitHidden
+                    if (typeof hidden == "undefined" || hidden == false) {
+                        Toast("跳转APP失败", 2000);
+                        setTimeout(function () {
+                            Toast("请手动操作", 2000);
+                        }, 2000);
+                    }
+                }, 2000);
+            } else {
+                jumpOnline();
+            }
+        }
+
+        function jumpOnline() {
+            var link = "";
+            var f = getQueryString("f");
+
+            if (f.includes("/mrp-files/")) {
+                f = cdnLink + f;
+            }
+            link = link + f;
+            var title = getQueryString("title");
+            if (title != null) {
+                link = link + "&title=" + title;
+            }
+
+            window.location.href = vmrpLink + link;
+        }
+
+
+        if (window.location.href.includes("?")) {
+            var link = "";
+            var f = getQueryString("f");
+
+            if (f.includes("/mrp-files/")) {
+                f = cdnLink + f;
+            }
+            link = link + f;
+
+            var scr = getQueryString("scr");
+            if (scr === null || scr === undefined) {
+                scr = "240x320";
+            }
+
+
+            jumpVMRP(link, scr);
+
+            //if (navigator.language === "zh-CN") {
+            //  window.location.href = vmrpLinkCn + link;
+            //} else {
+            //  window.location.href = vmrpLink + link;
+            //}
+        } else {
+            window.location.href = vmrpLink;
+        }
+
+
+
+    </script>
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "17d2cb4c617347b9a939346f542ca423"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+</body>
+
+</html>
