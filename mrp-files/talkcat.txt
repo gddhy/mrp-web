@@ -1,0 +1,1 @@
+解压后将mrp放到/mythroad/talkcat/目录即可，直接将压缩包解压到mythroad目录也行，运行主程序会提示安装资源包
